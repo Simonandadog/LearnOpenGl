@@ -5,6 +5,8 @@
 //framebuffer size callback (those are certianly some words) for making the program know what size the window is.
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+void processInput(GLFWwindow* window);
+
 
 int main()
 {
@@ -45,6 +47,8 @@ int main()
 
     //The glfwWindowShouldClose function checks at the start of each loop iteration if GLFW has been instructed to close.
     //If so, the function returns true and the render loop stops running, after which we can close the application.
+
+    /*
     while (!glfwWindowShouldClose(window))
     {
         //glfwSwapBuffers swaps the color buffer, which is a 2d buffer with color values for every pixel.
@@ -53,6 +57,25 @@ int main()
         //updates the window state, and calls the corresponding functions
         glfwPollEvents();
     }
+    */
+
+    //render loop
+    while (!glfwWindowShouldClose(window))
+    {
+        //input
+        processInput(window);
+
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+
+        //check and call events and swap buffers
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+
+
 
     //clean/delete all of GLFW's resources that were allocated.
     glfwTerminate();
@@ -65,4 +88,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     //make sure the viewport matches the new window dimensions.
     //i dont have a retina display so i do not care.
     glViewport(0, 0, width, height);
+}
+
+
+void processInput(GLFWwindow *window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) ==  GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, true);
+    }
 }
